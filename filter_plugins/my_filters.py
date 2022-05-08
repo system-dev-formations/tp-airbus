@@ -24,7 +24,28 @@ class FilterModule(object):
                     break
         return list_of_version
     def get_device(self, list_device):
-        return list_device
+        disk = []
+        device = []
+        flag = 0
+        type_format = ['swap','ext4','xfs','dos', 'squashfs' ]
+        line = list_device.split('\n')
+        #return line
+        for i in line:
+            if 'Disk /' in i:
+                disk.append(i)
+        return disk
+        for v in disk:
+            inter = v.split()
+            cmd = "lsblk -f {}".format(inter[1][:-1])
+            check_blk = str(subprocess.check_output(cmd,shell=True))
+        #return check_blk
+        for t in type_format:
+            if t in check_blk:
+                flag = 1
+            if flag == 0:
+              device.append(inter[1][:-1])
+            flag = 0
+        #return device
 
 
 
