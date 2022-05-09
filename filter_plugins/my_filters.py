@@ -33,12 +33,16 @@ class FilterModule(object):
         for i in line:
             if 'Disk /' in i:
                 disk.append(i)
-        return disk
+        #return disk
         for v in disk:
             inter = v.split()
             cmd = "lsblk -f {}".format(inter[1][:-1])
             check_blk = str(subprocess.check_output(cmd,shell=True))
-        #return check_blk
+        for val in type_format:
+            if val in check_blk:
+                continue
+            else:
+                return check_blk
         for t in type_format:
             if t in check_blk:
                 flag = 1
